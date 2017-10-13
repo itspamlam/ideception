@@ -20,10 +20,15 @@
   "homepage": "https://github.com/candacerogue/ideception#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+<<<<<<< HEAD
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.2",
     "path": "^0.12.7",
     "pg-promise": "^7.0.1",
     "request": "^2.83.0"
+=======
+    "express": "^4.16.2",
+    "path": "^0.12.7"
+>>>>>>> master
   }
 }
