@@ -41,7 +41,7 @@ app.get('/frequency-test', frequencyController.sanitizeTitles);
 /**
   * Database Query to create Idea table
   */
-  // app.get('/', );
+  app.get('/', IdeaController.createIdeaTable);
 
 /**
  * Establish db connection
