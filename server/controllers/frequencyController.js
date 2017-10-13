@@ -1,7 +1,9 @@
 'use strict';
+// Required packages
 const nlp = require('compromise');
-
+// Define controller to export
 const frequencyController = {};
+// Test data
 const titlesArr = [
   "A crash course on Serverless with Node.js",
   "How to fix your React app when it secretly hates you",
@@ -55,23 +57,30 @@ const titlesArr = [
   "Which component should get state in React? – Felix Clack – Medium"
 ];
 
+/**
+ * sanitizeTitles - iterates through titles in either req.locals.titles or the test titles arr
+ * removes special characters and generic words
+ * outputs sanitize word array
+ */
 frequencyController.sanitizeTitles = (req, res, next) => {
-  // console.log('sanitizing titles now...', req.locals.titles);
-  let titles = req.locals ? res.locals.titles : titlesArr;
-  let sanitizedTitles = [];
+  let titles = req.locals ? req.locals.titles : titlesArr;
+  let sanitizedWords = [];
 
   for(let i = 0; i < titles.length; i++){
-    let title = titles[i].match(/[^A-Za-z]/);
-    console.log('sanitized title', title);
     // remove non alphanumeric characters
-    // let doc = nlp(titles[i]);
-    // doc.nouns().data().forEach(noun => {
-    //   sanitizedTitles.push(noun.singular);
-    // });
+    let title = titles[i].replace(/\//g, " ");
+        title = title.replace(/[^a-zA-Z’ ]/g, "");
+        title = title.replace('and', '');
+        title = title.replace('for', '');
+        title = title.replace('the', '');
+    let doc = nlp(title);
+    doc.nouns().data().forEach(noun => {
+      let words = noun.singular.split(' ');
+      sanitizedWords = sanitizedWords.concat(words);
+    });
   }
-  // console.log('sanitizedTitles', sanitizedTitles);
 
-  res.status(200).send(sanitizedTitles);
+  res.status(200).send(sanitizedWords);
 };
 
 module.exports = frequencyController;

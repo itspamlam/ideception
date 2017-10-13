@@ -32,7 +32,8 @@ app.use(bodyParser.json());
  * Establish route to request scraped data
  */
 app.get('/scraper', createLocalsObj, scraperController.getMediumData, scraperController.getRedditData, frequencyController.sanitizeTitles);
-app.get('/frequency', frequencyController.sanitizeTitles);
+// Test route for data not scraped
+app.get('/frequency-test', frequencyController.sanitizeTitles);
 
 
 /**

@@ -1,55 +1,57 @@
 'use strict';
 
-const cheerio = require('cheerio');
-const request = require('request');
+// Required packages
+const cheerio = require('cheerio'),
+      request = require('request');
 
-const scrapeController = {
-  cache: Object.create(null),
-  getMediumData: (req, res, next) => {
-    if (scrapeController.cache[req.url]) {
-      setTimeout(() => scrapeController.cache[req.url] = null, 30000);
-      return res.send(scrapeController.cache[req.url]);
-    }
-    request('https://medium.com/topic/javascript', (err, response, html) => {
-      // handle error on request
-      if (err) return res.status(404).send(err);
-      // load scraped HTML into Cheerio
-      let $ = cheerio.load(html);
+// Define controller obj to export
+const scrapeController = {};
 
-      // parse through titles
-      let titles = [];
-      $('h3').each(function (i, elem) {
-        let title = $(this).text();
-        titles.push(title);
-      });
+/**
+ * getMediumData - scrape meduim.com javascript route for article titles
+ * outputs titles in req.locals.titles obj
+ */
+scrapeController.getMediumData = (req, res, next) => {
+  request('https://medium.com/topic/javascript', (err, response, html) => {
+    // handle error on request
+    if (err) return res.status(404).send(err);
+    // load scraped HTML into Cheerio
+    let $ = cheerio.load(html);
 
-      // add parsed titles to req.locals
-      req.locals.titles = titles;
-      
-      next();
+    // parse through titles
+    let titles = [];
+    $('h3').each(function (i, elem) {
+      let title = $(this).text();
+      titles.push(title);
     });
-  },
-  getRedditData: (req, res, next) => {
-    if (scrapeController.cache[req.url]) {
-      setTimeout(() => scrapeController.cache[req.url] = null, 30000);
-      return res.send(scrapeController.cache[req.url]);
-    }
-    request('https://www.reddit.com/r/javascript/', (err, response, html) => {
-      // handle error on request
-      if (err) return res.status(404).send(err);
-      // load scraped HTML into Cheerio
-      let $ = cheerio.load(html);
-      // parse through titles
-      let titles = [];
-      $('a.title').each(function(i, elem){
-        let title = $(this).text();
-        titles.push(title);
-      });
-      // add parsed titles to req.locals
-      req.locals.titles = req.locals.titles.concat(titles);
-      next();
-    });
-  }
+
+    // add parsed titles to req.locals
+    req.locals.titles = titles;
+
+    next();
+  });
 };
-  
-  module.exports = scrapeController;
+
+/**
+ * getRedditData - scrape javascript subreddit for article titles
+ * concats with titles in req.locals.titles obj
+ */
+scrapeController.getRedditData = (req, res, next) => {
+  request('https://www.reddit.com/r/javascript/', (err, response, html) => {
+    // handle error on request
+    if (err) return res.status(404).send(err);
+    // load scraped HTML into Cheerio
+    let $ = cheerio.load(html);
+    // parse through titles
+    let titles = [];
+    $('a.title').each(function (i, elem) {
+      let title = $(this).text();
+      titles.push(title);
+    });
+    // add parsed titles to req.locals
+    req.locals.titles = req.locals.titles.concat(titles);
+    next();
+  });
+};
+
+module.exports = scrapeController;
