@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node server/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +19,11 @@
   },
   "homepage": "https://github.com/candacerogue/ideception#readme",
   "dependencies": {
-    
+    "body-parser": "^1.18.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "path": "^0.12.7",
+    "pg": "^7.3.0",
+    "pg-promise": "^7.0.1"
   }
 }
