@@ -1,13 +1,15 @@
 const bodyParser    = require('body-parser'),
       express       = require('express'),
       path          = require('path'),
-      app           = express();
+      app           = express(),
+      db            = ('./models/database.js');
 
 /**
  * require controllers
  */
 const scraperController = require('./controllers/scraperController.js');
 const frequencyController = require('./controllers/frequencyController.js');
+const ideaController = require('./controllers/ideaController.js');
 /**
  * Create middleware function for scraper controller to add locals object to request for adding data
  */
@@ -35,6 +37,11 @@ app.get('/scraper', createLocalsObj, scraperController.getMediumData, scraperCon
 // Test route for data not scraped
 app.get('/frequency-test', frequencyController.sanitizeTitles);
 
+
+/**
+  * Database Query to create Idea table
+  */
+  // app.get('/', );
 
 /**
  * Establish db connection
