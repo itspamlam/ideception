@@ -7,6 +7,7 @@ const bodyParser    = require('body-parser'),
  * require controllers
  */
 const scraperController = require('./controllers/scraperController.js');
+const frequencyController = require('./controllers/frequencyController.js');
 /**
  * Create middleware function for scraper controller to add locals object to request for adding data
  */
@@ -30,7 +31,8 @@ app.use(bodyParser.json());
 /**
  * Establish route to request scraped data
  */
-app.get('/scraper', createLocalsObj, scraperController.getMediumData, scraperController.getRedditData);
+app.get('/scraper', createLocalsObj, scraperController.getMediumData, scraperController.getRedditData, frequencyController.sanitizeTitles);
+app.get('/frequency', frequencyController.sanitizeTitles);
 
 
 /**

@@ -47,7 +47,7 @@ const scrapeController = {
       });
       // add parsed titles to req.locals
       req.locals.titles = req.locals.titles.concat(titles);
-      res.status(200).send(req.locals.titles);
+      next();
     });
   }
 };
