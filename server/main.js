@@ -6,7 +6,7 @@ const bodyParser    = require('body-parser'),
 /**
  * require controllers
  */
-const scraperController = require('./scraper/scraper.js');
+const scraperController = require('./controllers/scraperController.js');
 /**
  * Create middleware function for scraper controller to add locals object to request for adding data
  */
@@ -30,7 +30,7 @@ app.use(bodyParser.json());
 /**
  * Establish route to request scraped data
  */
-app.get('/scraper', createLocalsObj, scraperController.getHackerNewsData);
+app.get('/scraper', createLocalsObj, scraperController.getMediumData, scraperController.getRedditData);
 
 
 /**

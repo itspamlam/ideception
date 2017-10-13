@@ -6,7 +6,6 @@ const request = require('request');
 const scrapeController = {
   cache: Object.create(null),
   getMediumData: (req, res, next) => {
-    console.log('scraping medium now...');
     if (scrapeController.cache[req.url]) {
       setTimeout(() => scrapeController.cache[req.url] = null, 30000);
       return res.send(scrapeController.cache[req.url]);
@@ -25,30 +24,30 @@ const scrapeController = {
       });
 
       // add parsed titles to req.locals
-      req.locals.mediumTitles = titles;
+      req.locals.titles = titles;
       
-      res.status(200).send(titles);
+      next();
     });
   },
-  getHackerNewsData: (req, res, next) => {
-    console.log('scraping hacker news now...');
+  getRedditData: (req, res, next) => {
     if (scrapeController.cache[req.url]) {
       setTimeout(() => scrapeController.cache[req.url] = null, 30000);
       return res.send(scrapeController.cache[req.url]);
     }
-    request('https://news.ycombinator.com/newest', (err, response, html) => {
+    request('https://www.reddit.com/r/javascript/', (err, response, html) => {
       // handle error on request
       if (err) return res.status(404).send(err);
-      console.log('got html!', html);
-      return res.send(html);
       // load scraped HTML into Cheerio
       let $ = cheerio.load(html);
-      
       // parse through titles
-      
+      let titles = [];
+      $('a.title').each(function(i, elem){
+        let title = $(this).text();
+        titles.push(title);
+      });
       // add parsed titles to req.locals
-      
-      res.status(200).send();
+      req.locals.titles = req.locals.titles.concat(titles);
+      res.status(200).send(req.locals.titles);
     });
   }
 };
