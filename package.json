@@ -2,9 +2,9 @@
   "name": "ideception",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server/main.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node server/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,8 +19,20 @@
   },
   "homepage": "https://github.com/candacerogue/ideception#readme",
   "dependencies": {
+<<<<<<< HEAD
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "path": "^0.12.7"
+||||||| merged common ancestors
+    
+=======
+    "body-parser": "^1.18.2",
+    "cheerio": "^1.0.0-rc.2",
+    "compromise": "^10.7.2",
+    "express": "^4.16.2",
+    "path": "^0.12.7",
+    "pg-promise": "^7.0.1",
+    "request": "^2.83.0"
+>>>>>>> 06472eb89d3f008a4aaa97228f1c05b550fa70c2
   }
 }
