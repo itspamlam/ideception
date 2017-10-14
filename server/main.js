@@ -81,8 +81,6 @@ app.use('/', router);
 app.post('/', ideaController.createIdea);
 app.get('/', ideaController.getIdea);
 
-//use the express.Router() for any route after /
-app.use('/', router);
 
 /**
  * Establish route to controller middleware
