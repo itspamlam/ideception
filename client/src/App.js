@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import Vis from './vis/Vis';
 import VisLoading from './vis/VisLoading';
 import VisError from './vis/VisError';
+// Component for input form for idea
+import Idea from './Idea.js';
 // Default create-react-app
 import logo from './logo.svg';
 import './App.css';
@@ -17,13 +19,16 @@ class App extends Component {
       randomWords: [],
       freqData: {},
       visLoading: true,
-      visError: false
+      visError: false,
+      ideas: this.getIdea()
     };
-    
+
     // Vis methods
     this.calcFreq = this.calcFreq.bind(this);
     this.getRandomWords = this.getRandomWords.bind(this);
     this.getScrapedWords = this.getScrapedWords.bind(this);
+    // get Idea method
+    this.getIdea = this.getIdea.bind(this);
   }
 
   /**
@@ -49,10 +54,10 @@ class App extends Component {
 
   /**
    * getRandomWords - fetches random words and random frequency data from server
-   * 
-   * @param {int} count = added to query string representing 
+   *
+   * @param {int} count = added to query string representing
    *    the number of random words server should return
-   * @param {int} max = represents the max frequency which could be randomly 
+   * @param {int} max = represents the max frequency which could be randomly
    *    generated in returned object
    */
   getRandomWords(count = 10, max = 10) {
@@ -70,6 +75,23 @@ class App extends Component {
         visError:true,
         visLoading: false
       });
+    });
+  }
+
+  /**
+  * getIdea - fetch Idea DB for title, idea, and tag
+  */
+  getIdea() {
+    fetch('http://localhost:8080/api/ideas')
+    .then((response) => response.json())
+    .then(gotIdea => {
+      console.log('gotIdea', gotIdea);
+      this.setState({
+        ideas: gotIdea
+      });
+    })
+    .catch(err => {
+      console.log('error', err);
     });
   }
 
@@ -96,15 +118,20 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
+        <div>
         {/* VIS RENDER LOGIC */}
         {this.state.visLoading ? <VisLoading /> : null}
         {this.state.visError ? <VisError /> : null}
-        {this.state.scrapedWords && this.state.freqData && !this.state.visError ? <Vis 
+        {this.state.scrapedWords && this.state.freqData && !this.state.visError ? <Vis
           freqData={this.state.freqData}
-          randomWords={this.state.randomWords} 
+          randomWords={this.state.randomWords}
           scrapedWords={this.state.scrapedWords}
           getRandomWords={this.getRandomWords}
         /> : null}
+      </div>
+        <div>
+          {this.state.ideas ? <Idea ideas={this.state.ideas} /> : null}
+        </div>
       </div>
     );
   }

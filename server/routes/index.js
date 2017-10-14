@@ -13,7 +13,7 @@ userController = require('../controllers/userController.js');
 
 /**
  * Scraped data handler
- *  - scrapes data from Medium and Reddit then 
+ *  - scrapes data from Medium and Reddit then
  *    sanitizes the data before outputting to client
  */
 router
@@ -23,6 +23,9 @@ router
   .route('/frequency-test')
   .get(frequencyController.sanitizeTitles);
 
+router
+  .route('/frequency-test')
+  .get(frequencyController.sanitizeTitles);
 /**
  * Random data handler
  *  - generates random words and random frequencies for those words
