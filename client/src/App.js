@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 import Vis from './vis/Vis';
 import VisLoading from './vis/VisLoading';
 import VisError from './vis/VisError';
-// Component for input form for idea
-import Idea from './Idea.js';
+// Idea component
+import Idea from './ideas/Idea.js';
+import NewIdea from './ideas/NewIdea.js';
 // Default create-react-app
 import logo from './logo.svg';
 import './App.css';
-import NewIdea from './NewIdea.js';
 
 class App extends Component {
   constructor(props) {
