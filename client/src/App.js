@@ -30,7 +30,7 @@ class App extends Component {
    * getScrapedWords - fetches scraped data from server
    */
   getScrapedWords() {
-    fetch('http://localhost:8080/scraper')
+    fetch('http://localhost:8080/api/frequency-test')
     .then((response) => response.json())
     .then(scrapedWords => {
       setTimeout(() => this.calcFreq(), 100);
@@ -56,7 +56,7 @@ class App extends Component {
    *    generated in returned object
    */
   getRandomWords(count = 10, max = 10) {
-    fetch(`http://localhost:8080/faker?count=${count}&max=${max}`)
+    fetch(`http://localhost:8080/api/faker?count=${count}&max=${max}`)
     .then((response) => response.json())
     .then(randomWords => {
       this.setState({

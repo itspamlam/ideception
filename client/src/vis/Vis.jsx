@@ -1,6 +1,6 @@
 import React from 'react';
 // Reqiuired module for generating wordcloud
-import WordCloud from 'react-d3-cloud';
+import WordCloud from './../lib/react-d3-cloud/WordCloud';
 
 /**
  * fontSizeMapper - generates font size for particular word in wordcloud
