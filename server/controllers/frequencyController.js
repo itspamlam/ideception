@@ -63,7 +63,7 @@ const titlesArr = [
  * outputs sanitize word array
  */
 frequencyController.sanitizeTitles = (req, res, next) => {
-  let titles = req.locals ? req.locals.titles : titlesArr;
+  let titles = req.locals.titles ? req.locals.titles : titlesArr;
   let sanitizedWords = [];
 
   for(let i = 0; i < titles.length; i++){

@@ -20,13 +20,15 @@
   "homepage": "https://github.com/candacerogue/ideception#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "cheerio": "^1.0.0-rc.2",
+    "compromise": "^10.7.2",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
+    "faker": "^4.1.0",
     "path": "^0.12.7",
     "pg": "^7.3.0",
     "pg-promise": "^7.0.1",
-    "cheerio": "^1.0.0-rc.2",
-    "compromise": "^10.7.2",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5"
   }
 }
