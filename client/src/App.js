@@ -17,13 +17,17 @@ class App extends Component {
       randomWords: [],
       freqData: {},
       visLoading: true,
-      visError: false
+      visError: false,
+      // Vis interaction
+      clickedWords: {}
     };
     
     // Vis methods
     this.calcFreq = this.calcFreq.bind(this);
     this.getRandomWords = this.getRandomWords.bind(this);
     this.getScrapedWords = this.getScrapedWords.bind(this);
+    // Vis interaction method
+    this.handleClickedWord = this.handleClickedWord.bind(this);
   }
 
   /**
@@ -89,6 +93,16 @@ class App extends Component {
     });
   }
 
+  handleClickedWord(item) {
+    let word = item.text;
+    let clickedWords = Object.assign(this.state.clickedWords);
+    if(!clickedWords[word]) clickedWords[word] = true;
+    else clickedWords[word] = false;
+    this.setState({
+      clickedWords: clickedWords
+    });
+  }
+
   render() {
     return (
       <div className="App">
@@ -104,6 +118,7 @@ class App extends Component {
           randomWords={this.state.randomWords} 
           scrapedWords={this.state.scrapedWords}
           getRandomWords={this.getRandomWords}
+          handleClickedWord={this.handleClickedWord}
         /> : null}
       </div>
     );

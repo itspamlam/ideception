@@ -40,6 +40,7 @@ const Vis = (props) => {
         data={data}
         fontSizeMapper={fontSizeMapper}
         rotate={rotate}
+        clickEvent={props.handleClickedWord}
       /> : null}
     </div>
   );
