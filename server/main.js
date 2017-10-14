@@ -1,9 +1,20 @@
 const bodyParser    = require('body-parser'),
-      express       = require('express'),
-      path          = require('path'),
-      app           = express(),
-      router         = express.Router(),
-      db            = require('./models/database.js');
+express       = require('express'),
+router        = express.Router(),
+path          = require('path'),
+app           = express(),
+db            = require('./models/database.js'),
+userController= require('./controllers/userController.js');
+
+/** Database Connection...located in database.js */
+// console.log('This is the db', db.conn.connect);
+
+/**
+* Express middleware to serve all static files from client folder
+*/
+    //   express       = require('express'),
+    //   path          = require('path'),
+    //   app           = express();
 
 /**
  * require controllers
@@ -60,6 +71,9 @@ app.get('/scraper', scraperController.getMediumData, scraperController.getReddit
 app.get('/frequency-test', frequencyController.sanitizeTitles);
 app.get('/faker', fakerController.generateRandomWords, fakerController.generateRandomFrequencies);
 
+//use the express.Router() for any route after /
+app.use('/', router);
+
 
 /**
   * Database Query to create Idea table
@@ -67,6 +81,17 @@ app.get('/faker', fakerController.generateRandomWords, fakerController.generateR
 app.post('/', ideaController.createIdea);
 app.get('/', ideaController.getIdea);
 
+//use the express.Router() for any route after /
+app.use('/', router);
+
+/**
+ * Establish route to controller middleware
+ */
+ router
+    .route('/')
+    .post(userController.createUser)
+    .get(userController.getUser);
+     
 
 /**
  * Establish db connection
