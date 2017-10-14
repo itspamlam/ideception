@@ -19,13 +19,15 @@ class App extends Component {
       randomWords: [],
       freqData: {},
       visLoading: true,
-      visError: false
+      visError: false,
+      ideas: this.getIdea()
     };
 
     // Vis methods
     this.calcFreq = this.calcFreq.bind(this);
     this.getRandomWords = this.getRandomWords.bind(this);
     this.getScrapedWords = this.getScrapedWords.bind(this);
+    // get Idea method
     this.getIdea = this.getIdea.bind(this);
   }
 
@@ -33,7 +35,7 @@ class App extends Component {
    * getScrapedWords - fetches scraped data from server
    */
   getScrapedWords() {
-    fetch('http://localhost:8080/frequency-test')
+    fetch('http://localhost:8080/api/frequency-test')
     .then((response) => response.json())
     .then(scrapedWords => {
       setTimeout(() => this.calcFreq(), 100);
@@ -59,7 +61,7 @@ class App extends Component {
    *    generated in returned object
    */
   getRandomWords(count = 10, max = 10) {
-    fetch(`http://localhost:8080/faker?count=${count}&max=${max}`)
+    fetch(`http://localhost:8080/api/faker?count=${count}&max=${max}`)
     .then((response) => response.json())
     .then(randomWords => {
       this.setState({
@@ -77,11 +79,20 @@ class App extends Component {
   }
 
   /**
-  * getIdea - fetch Idea DBs for title, idea, and tag
+  * getIdea - fetch Idea DB for title, idea, and tag
   */
   getIdea() {
-    fetch('http://localhost:8080/ideas')
-    .then((response) => console.log(response));
+    fetch('http://localhost:8080/api/ideas')
+    .then((response) => response.json())
+    .then(gotIdea => {
+      console.log('gotIdea', gotIdea);
+      this.setState({
+        ideas: gotIdea
+      });
+    })
+    .catch(err => {
+      console.log('error', err);
+    });
   }
 
   /**
@@ -107,6 +118,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
+        <div>
         {/* VIS RENDER LOGIC */}
         {this.state.visLoading ? <VisLoading /> : null}
         {this.state.visError ? <VisError /> : null}
@@ -116,6 +128,10 @@ class App extends Component {
           scrapedWords={this.state.scrapedWords}
           getRandomWords={this.getRandomWords}
         /> : null}
+      </div>
+        <div>
+          {this.state.ideas ? <Idea ideas={this.state.ideas} /> : null}
+        </div>
       </div>
     );
   }
