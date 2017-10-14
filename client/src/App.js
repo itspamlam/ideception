@@ -8,6 +8,7 @@ import Idea from './Idea.js';
 // Default create-react-app
 import logo from './logo.svg';
 import './App.css';
+import NewIdea from './NewIdea.js';
 
 class App extends Component {
   constructor(props) {
@@ -23,6 +24,12 @@ class App extends Component {
       visError: false,
       // Vis interaction
       clickedWords: {},
+      // New idea component
+      newIdea: {
+        title: "",
+        idea: "",
+        tag: ""
+      },
       // Saved ideas component
       ideas: this.getIdea()
     };
@@ -34,7 +41,9 @@ class App extends Component {
     this.getScrapedWords = this.getScrapedWords.bind(this);
     // Vis interaction method
     this.handleClickedWord = this.handleClickedWord.bind(this);
-    // Saved Idea method
+    //New Idea methods
+    this.handleNewIdeaFieldUpdate = this.handleNewIdeaFieldUpdate.bind(this);
+    // get Idea method
     this.getIdea = this.getIdea.bind(this);
   }
 
@@ -82,23 +91,6 @@ class App extends Component {
           visError: true,
           visLoading: false
         });
-      });
-  }
-
-  /**
-  * getIdea - fetch Idea DB for title, idea, and tag
-  */
-  getIdea() {
-    fetch('http://localhost:8080/api/ideas')
-      .then((response) => response.json())
-      .then(gotIdea => {
-        console.log('gotIdea', gotIdea);
-        this.setState({
-          ideas: gotIdea
-        });
-      })
-      .catch(err => {
-        console.log('error', err);
       });
   }
 
@@ -167,6 +159,39 @@ class App extends Component {
     });
   }
 
+  /**
+  * getIdea - fetch Idea DB for title, idea, and tag
+  */
+  getIdea() {
+    fetch('http://localhost:8080/api/ideas')
+      .then((response) => response.json())
+      .then(gotIdea => {
+        console.log('gotIdea', gotIdea);
+        this.setState({
+          ideas: gotIdea
+        });
+      })
+      .catch(err => {
+        console.log('error', err);
+      });
+  }
+
+  /**
+   * handleNewIdeaFieldUpdate - updates state any time new idea field changes
+   * 
+   * @param {obj} e - object provided by click event 
+   */
+  handleNewIdeaFieldUpdate(e) {
+    let update = e.target.name; //The field that's updated is the property's name
+    let newIdea = Object.assign(this.state.newIdea); //Creating a copy of the current state
+    newIdea[update] = e.target.value; //Updating copy with new field data
+    this.setState({ newIdea }) //Updating state wholly
+  };
+
+  // saveIdea(e){
+  //   fetch to local server with the post method
+  //   use the server to post user inputs to database
+
   render() {
     return (
       <div className="App">
@@ -174,7 +199,6 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <div>
           {/* VIS RENDER LOGIC */}
           {this.state.visLoading ? <VisLoading /> : null}
           {this.state.visError ? <VisError /> : null}
@@ -182,10 +206,12 @@ class App extends Component {
             visData={this.state.visData}
             handleClickedWord={this.handleClickedWord}
           /> : null}
-        </div>
-        <div>
+          {/* NEW IDEA LOGIC */}
+          <NewIdea
+            handleNewIdeaFieldUpdate={this.state.handleNewIdeaFieldUpdate}
+          />
+          {/* SHOW IDEAS LOGIC */}
           {this.state.ideas ? <Idea ideas={this.state.ideas} /> : null}
-        </div>
       </div>
     );
   }
