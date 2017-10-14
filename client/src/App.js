@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import Vis from './vis/Vis';
 import VisLoading from './vis/VisLoading';
 import VisError from './vis/VisError';
+// Component for input form for idea
+import Idea from './Idea.js';
 // Default create-react-app
 import logo from './logo.svg';
 import './App.css';
@@ -20,7 +22,9 @@ class App extends Component {
       visLoading: true,
       visError: false,
       // Vis interaction
-      clickedWords: {}
+      clickedWords: {},
+      // Saved ideas component
+      ideas: this.getIdea()
     };
 
     // Vis methods
@@ -30,6 +34,8 @@ class App extends Component {
     this.getScrapedWords = this.getScrapedWords.bind(this);
     // Vis interaction method
     this.handleClickedWord = this.handleClickedWord.bind(this);
+    // Saved Idea method
+    this.getIdea = this.getIdea.bind(this);
   }
 
   /**
@@ -55,10 +61,10 @@ class App extends Component {
 
   /**
    * getRandomWords - fetches random words and random frequency data from server
-   * 
-   * @param {int} count = added to query string representing 
+   *
+   * @param {int} count = added to query string representing
    *    the number of random words server should return
-   * @param {int} max = represents the max frequency which could be randomly 
+   * @param {int} max = represents the max frequency which could be randomly
    *    generated in returned object
    */
   getRandomWords(count = 10, max = 10) {
@@ -76,6 +82,23 @@ class App extends Component {
           visError: true,
           visLoading: false
         });
+      });
+  }
+
+  /**
+  * getIdea - fetch Idea DB for title, idea, and tag
+  */
+  getIdea() {
+    fetch('http://localhost:8080/api/ideas')
+      .then((response) => response.json())
+      .then(gotIdea => {
+        console.log('gotIdea', gotIdea);
+        this.setState({
+          ideas: gotIdea
+        });
+      })
+      .catch(err => {
+        console.log('error', err);
       });
   }
 
@@ -120,7 +143,7 @@ class App extends Component {
     else {  // otherwise, set the final data variable to array including all manipulated data.
       visData = visData.concat(randomWords);
       this.setState({
-        visData:visData,
+        visData: visData,
         visLoading: false
       });
     }
@@ -151,13 +174,18 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        {/* VIS RENDER LOGIC */}
-        {this.state.visLoading ? <VisLoading /> : null}
-        {this.state.visError ? <VisError /> : null}
-        {this.state.visData && !this.state.visError ? <Vis
-          visData={this.state.visData}
-          handleClickedWord={this.handleClickedWord}
-        /> : null}
+        <div>
+          {/* VIS RENDER LOGIC */}
+          {this.state.visLoading ? <VisLoading /> : null}
+          {this.state.visError ? <VisError /> : null}
+          {this.state.visData && !this.state.visError ? <Vis
+            visData={this.state.visData}
+            handleClickedWord={this.handleClickedWord}
+          /> : null}
+        </div>
+        <div>
+          {this.state.ideas ? <Idea ideas={this.state.ideas} /> : null}
+        </div>
       </div>
     );
   }
