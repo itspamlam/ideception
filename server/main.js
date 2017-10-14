@@ -1,7 +1,9 @@
 const bodyParser    = require('body-parser'),
       express       = require('express'),
       path          = require('path'),
-      app           = express();
+      app           = express(),
+      router         = express.Router(),
+      db            = require('./models/database.js');
 
 /**
  * require controllers
@@ -9,6 +11,7 @@ const bodyParser    = require('body-parser'),
 const fakerController = require('./controllers/fakerController.js');
 const scraperController = require('./controllers/scraperController.js');
 const frequencyController = require('./controllers/frequencyController.js');
+const ideaController = require('./controllers/ideaController.js');
 /**
  * Create middleware function for scraper controller to add locals object to request for adding data
  */
@@ -35,6 +38,8 @@ const allowCrossDomain = (req, res, next) => {
 // Add allowCrossDomain as middleware
 app.use(allowCrossDomain);
 
+// app.use('/', router);
+
 /**
  * Express middleware to serve all static files from client folder
  */
@@ -54,6 +59,13 @@ app.get('/scraper', scraperController.getMediumData, scraperController.getReddit
 // Test route for data not scraped
 app.get('/frequency-test', frequencyController.sanitizeTitles);
 app.get('/faker', fakerController.generateRandomWords, fakerController.generateRandomFrequencies);
+
+
+/**
+  * Database Query to create Idea table
+  */
+app.post('/', ideaController.createIdea);
+app.get('/', ideaController.getIdea);
 
 
 /**
