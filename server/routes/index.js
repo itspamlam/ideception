@@ -19,6 +19,9 @@ userController = require('../controllers/userController.js');
 router
   .route('/scraper')
   .get(scraperController.getMediumData, scraperController.getRedditData, frequencyController.sanitizeTitles);
+router
+  .route('/frequency-test')
+  .get(frequencyController.sanitizeTitles);
 
 /**
  * Random data handler
