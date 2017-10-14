@@ -1,23 +1,38 @@
 import React from 'react';
+// Reqiuired module for generating wordcloud
 import WordCloud from 'react-d3-cloud';
 
+/**
+ * fontSizeMapper - generates font size for particular word in wordcloud
+ * 
+ * @param {string} word
+ */
 const fontSizeMapper = word => Math.log2(word.value) * 20;
+
+/**
+ * rotate - generates rotation prop for particular word in wordcloud
+ * 
+ * @param {string} word 
+ */
 const rotate = word => word.value % 360;
 
 
 const Vis = (props) => {
+  // initialize variables
   let data,
-  actualData;
+    filteredData;
   
-  if(props.scrapedWords && Object.keys(props.freqData).length > 0){
-    actualData = props.freqData ? Object.keys(props.freqData).filter(key => (key !== 'your' && key !== 'my' && key !== 'the' && props.freqData[key] > 1)).map(key => ({ 'text': key, value: props.freqData[key] })) : null;
-    if(!props.randomWords || !props.randomWords.length) {
+  if(props.scrapedWords && Object.keys(props.freqData).length > 0){ // only start logic if we're finished fetching and analyzing scraped data
+    // set filteredData to array of objects where text prop is the key of freqData and the value is the number of occurrances.  
+    //    Filterd to only show frequencies greater than 1 and non-generic text.
+    filteredData = props.freqData ? Object.keys(props.freqData).filter(key => (key !== 'your' && key !== 'my' && key !== 'the' && props.freqData[key] > 1)).map(key => ({ 'text': key, value: props.freqData[key] })) : null;
+    if(!props.randomWords || !props.randomWords.length) { // now, if there are no random words, request to fetch those using frequency and filtered data
       let len = Object.values(props.freqData).length;
       let count = Object.values(props.freqData).sort((a,b) => a-b)[len - 1];
-      let max = Math.floor(actualData.length / 4);
+      let max = Math.floor(filteredData.length / 4);
       props.getRandomWords(count, max);
     }
-    else data = actualData.concat(props.randomWords);
+    else data = filteredData.concat(props.randomWords); // otherwise, set the final data variable to array including all manipulated data.
   }
   return (
     <div className="Vis">
