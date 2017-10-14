@@ -8,18 +8,17 @@ const IdeaController = {};
 * Add Idea
 */
 IdeaController.createIdea = (req, res) => {
-  console.log('createIdea');
   let newIdea = new Idea({
     title: req.body.title,
     idea: req.body.idea,
-    tag: req.body.tag || null
+    tag: req.body.tag || null,
+    user_id: req.body.user_id
   });
 
   const query = {
-    text: "INSERT INTO ideas(title, idea, tag) VALUES($1, $2, $3)",
+    text: "INSERT INTO ideas(title, idea, tag, user_id) VALUES($1, $2, $3, $4)",
     values: Object.values(newIdea)
   };
-
 
   db.conn.one(query)
     .then(createdIdea => {
@@ -33,7 +32,16 @@ IdeaController.createIdea = (req, res) => {
 };
 
 /**
-* get Idea
+ * getIdeasByUser - gets all ideas for a given user
+ */
+IdeaController.getIdeasByUser = (req, res) => {
+  db.conn.any(`SELECT * FROM ideas WHERE user_id=${req.params.userId}`)
+    .then(foundIdeas => res.status(200).send(foundIdeas))
+    .catch(err => res.status(404).send(err));
+};
+
+/**
+* get Idea - gets ALL ideas from table
 */
 IdeaController.getIdea = (req, res) => {
   db.getAll('ideas')
