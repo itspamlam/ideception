@@ -1,8 +1,8 @@
 class Idea {
   constructor(data) {
     this.title = data.title;
-    this.idea = this.idea;
-    this.tag = this.tag;
+    this.idea = data.idea;
+    this.tag = data.tag;
   }
 }
 

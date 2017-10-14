@@ -2,7 +2,8 @@ const bodyParser    = require('body-parser'),
       express       = require('express'),
       path          = require('path'),
       app           = express(),
-      db            = ('./models/database.js');
+      router         = express.Router(),
+      db            = require('./models/database.js');
 
 /**
  * require controllers
@@ -17,6 +18,8 @@ const createLocalsObj = (req, res, next) => {
   req.locals = {};
   next();
 };
+
+// app.use('/', router);
 
 /**
  * Express middleware to serve all static files from client folder
@@ -41,7 +44,9 @@ app.get('/frequency-test', frequencyController.sanitizeTitles);
 /**
   * Database Query to create Idea table
   */
-  app.get('/', IdeaController.createIdeaTable);
+app.post('/', ideaController.createIdea);
+app.get('/', ideaController.getIdea);
+
 
 /**
  * Establish db connection

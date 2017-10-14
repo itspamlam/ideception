@@ -8,6 +8,6 @@ const db = {
   }
 };
 
+console.log(uri);
 db.conn = pgp(uri);
-
 module.exports = db;
