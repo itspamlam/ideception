@@ -1,23 +1,17 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 const Idea = (props) => {
 
   const titles = [];
 
   // grab all the titles in the database
-  props.ideas.forEach( ideaObj => {
-    titles.push(ideaObj.title);
+  props.ideas.forEach( (ideaObj, index) => {
+    titles.push(<li key = {index}>{ideaObj.title}</li>);
   });
-
-  console.log(titles);
 
   return (
     <div>
-      <ul>
-        {titles.map(title => {
-          return <li>{title}</li>
-        })}
-      </ul>
+      <ul>{titles}</ul>
     </div>
   )
 }
