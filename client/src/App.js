@@ -8,6 +8,7 @@ import Idea from './Idea.js';
 // Default create-react-app
 import logo from './logo.svg';
 import './App.css';
+import NewIdea from './NewIdea.js';
 
 class App extends Component {
   constructor(props){
@@ -20,6 +21,11 @@ class App extends Component {
       freqData: {},
       visLoading: true,
       visError: false,
+      newIdea:{
+        title: "",
+        idea: "",
+        tag: ""
+      },
       ideas: this.getIdea()
     };
 
@@ -27,6 +33,10 @@ class App extends Component {
     this.calcFreq = this.calcFreq.bind(this);
     this.getRandomWords = this.getRandomWords.bind(this);
     this.getScrapedWords = this.getScrapedWords.bind(this);
+
+    //New Idea methods
+    this.updateFields = this.updateFields.bind(this);
+    // this.saveIdea = this.saveIdea.bind(this);
     // get Idea method
     this.getIdea = this.getIdea.bind(this);
   }
@@ -111,6 +121,18 @@ class App extends Component {
     });
   }
 
+
+  updateFields(e){
+   let update = e.target.name; //The field that's updated is the property's name
+   let newIdea = Object.assign(this.state.newIdea); //Creating a copy of the current state
+   newIdea[update] = e.target.value; //Updating copy with new field data
+    this.setState({newIdea}) //Updating state wholly
+  };
+
+  // saveIdea(e){
+  //   fetch to local server with the post method
+  //   use the server to post user inputs to database
+
   render() {
     return (
       <div className="App">
@@ -128,6 +150,14 @@ class App extends Component {
           scrapedWords={this.state.scrapedWords}
           getRandomWords={this.getRandomWords}
         /> : null}
+        <div>
+        {/* NEW IDEA LOGIC */}
+        <NewIdea
+        updateFields={this.state.updateFields}
+        /* saveIdea={this.state.saveIdea} */
+        />
+      </div>  
+
       </div>
         <div>
           {this.state.ideas ? <Idea ideas={this.state.ideas} /> : null}
