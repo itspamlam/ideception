@@ -71,6 +71,9 @@ app.get('/scraper', scraperController.getMediumData, scraperController.getReddit
 app.get('/frequency-test', frequencyController.sanitizeTitles);
 app.get('/faker', fakerController.generateRandomWords, fakerController.generateRandomFrequencies);
 
+//use the express.Router() for any route after /
+app.use('/', router);
+
 
 /**
   * Database Query to create Idea table
@@ -81,16 +84,15 @@ app.get('/', ideaController.getIdea);
 //use the express.Router() for any route after /
 app.use('/', router);
 
-
 /**
  * Establish route to controller middleware
  */
-
  router
     .route('/')
     .post(userController.createUser)
     .get(userController.getUser);
      
+
 /**
  * Establish db connection
  */
