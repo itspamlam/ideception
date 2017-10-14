@@ -1,22 +1,19 @@
 import React from 'react';
 
+const Idea = (props) => {
 
-const NewIdea = (props) => {
-    //pass down update fields and saveIdea props
+  const titles = [];
 
-    return (
-        <div id="container">
-          <form className="NewIdea">
-            <input id="title" name="title" type="text" placeholder="New Title"/>
-            <input id="idea" name="idea" type="text" placeholder="New Idea"/>
-            {/* tags */}
-            <button type="submit" onClick={props.saveIdea}>SAVE</button>
-          </form>
-        </div>
-    )
+  // grab all the titles in the database
+  props.ideas.forEach( (ideaObj, index) => {
+    titles.push(<li key = {index}>{ideaObj.title}</li>);
+  });
 
-
+  return (
+    <div>
+      <ul>{titles}</ul>
+    </div>
+  )
 }
 
-
-export default NewIdea;
+export default Idea;
