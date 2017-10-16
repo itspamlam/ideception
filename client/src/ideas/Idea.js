@@ -10,8 +10,9 @@ const Idea = (props) => {
   });
 
   return (
-    <div>
-      <ul>{titles}</ul>
+    <div style={{'marginLeft':'5% !important'}}>
+      <h3>Saved Ideas: </h3>
+      <ul style={{'listStyle':'none', 'marginLeft':'0 !important'}}>{titles}</ul>
     </div>
   )
 }
