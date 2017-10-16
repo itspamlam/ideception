@@ -21,6 +21,8 @@ const Vis = (props) => {
   return (
     <div className="Vis">
       {props.visData ? <WordCloud
+        width={500}
+        height={500}
         data={props.visData}
         fontSizeMapper={fontSizeMapper}
         rotate={rotate}

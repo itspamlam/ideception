@@ -6,8 +6,8 @@ import VisError from './vis/VisError';
 // Idea component
 import Idea from './ideas/Idea.js';
 import NewIdea from './ideas/NewIdea.js';
-// Default create-react-app
-import logo from './logo.svg';
+// Style
+import logo from './Ideception.png';
 import './App.css';
 
 class App extends Component {
@@ -51,7 +51,7 @@ class App extends Component {
    * getScrapedWords - fetches scraped data from server
    */
   getScrapedWords() {
-    fetch('http://localhost:8080/api/frequency-test')
+    fetch('http://localhost:8080/api/scraper')
       .then((response) => response.json())
       .then(scrapedWords => {
         setTimeout(() => this.calcFreq(), 100);
@@ -166,7 +166,6 @@ class App extends Component {
     fetch('http://localhost:8080/api/ideas')
       .then((response) => response.json())
       .then(gotIdea => {
-        console.log('gotIdea', gotIdea);
         this.setState({
           ideas: gotIdea
         });
@@ -197,8 +196,10 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <br />
+          <small>Brought to you by Databasiqs <em> - cause you're querious!</em></small>
         </header>
+        <div className="visual">
           {/* VIS RENDER LOGIC */}
           {this.state.visLoading ? <VisLoading /> : null}
           {this.state.visError ? <VisError /> : null}
@@ -206,12 +207,19 @@ class App extends Component {
             visData={this.state.visData}
             handleClickedWord={this.handleClickedWord}
           /> : null}
-          {/* NEW IDEA LOGIC */}
-          <NewIdea
-            handleNewIdeaFieldUpdate={this.state.handleNewIdeaFieldUpdate}
-          />
-          {/* SHOW IDEAS LOGIC */}
-          {this.state.ideas ? <Idea ideas={this.state.ideas} /> : null}
+        </div>
+        <div className="ideas">
+          <div>
+            {/* NEW IDEA LOGIC */}
+            <NewIdea
+              handleNewIdeaFieldUpdate={this.state.handleNewIdeaFieldUpdate}
+            />
+          </div>
+          <div>
+            {/* SHOW IDEAS LOGIC */}
+            {this.state.ideas ? <Idea ideas={this.state.ideas} /> : null}
+          </div>
+        </div>
       </div>
     );
   }
