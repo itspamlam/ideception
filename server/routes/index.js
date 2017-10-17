@@ -4,11 +4,9 @@ const express    = require('express'),
 /**
  * require controllers
  */
-const frequencyController = require('../controllers/frequencyController.js'),
-scraperController = require('../controllers/scraperController.js'),
-fakerController = require('../controllers/fakerController.js'),
-ideaController = require('../controllers/ideaController.js'),
-userController = require('../controllers/userController.js');
+const scraperController = require('../controllers/scraperController.js'),
+      ideaController = require('../controllers/ideaController.js'),
+      userController = require('../controllers/userController.js');
 
 
 /**
@@ -18,6 +16,7 @@ userController = require('../controllers/userController.js');
  */
 router
   .route('/scraper')
+<<<<<<< HEAD
   .get(frequencyController.sanitizeTitles);
 router
   .route('/frequency-test')
@@ -33,6 +32,9 @@ router // request random data
   .route('/faker')
   .get(fakerController.generateRandomWords, fakerController.generateRandomFrequencies);
 
+=======
+  .get(scraperController.getWords);
+>>>>>>> d7a81ee205066847412f781ff347c45459e11164
 /**
  * Idea handlers
  *  - Get all ideas

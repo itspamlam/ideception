@@ -20,10 +20,17 @@ const rotate = word => word.value % 360;
 const Vis = (props) => {
   return (
     <div className="Vis">
+<<<<<<< HEAD
       {props.visData ? <WordCloud
         width={props.windowWidth}
         height={props.windowHeight}
         data={props.visData}
+=======
+      {props.scrapedWords.length ? <WordCloud
+        width={500}
+        height={500}
+        data={props.scrapedWords}
+>>>>>>> d7a81ee205066847412f781ff347c45459e11164
         fontSizeMapper={fontSizeMapper}
         rotate={rotate}
         clickEvent={props.handleClickedWord}

@@ -16,14 +16,9 @@ class App extends Component {
 
     this.state = {
       // Vis state
-      scrapedWords: this.getScrapedWords(),
-      randomWords: [],
-      freqData: {},
-      visData: [],
+      scrapedWords: [],
       visLoading: true,
       visError: false,
-      // Vis interaction
-      clickedWords: {},
       // New idea component
       newIdea: {
         title: "",
@@ -31,16 +26,18 @@ class App extends Component {
         tag: ""
       },
       // Saved ideas component
+<<<<<<< HEAD
       ideas: this.getIdea(),
       windowWidth: 0,
       windowHeight: 0
+=======
+      ideas: []
+>>>>>>> d7a81ee205066847412f781ff347c45459e11164
     };
 
-    // Vis methods
-    this.calcFreq = this.calcFreq.bind(this);
-    this.prepVisData = this.prepVisData.bind(this);
-    this.getRandomWords = this.getRandomWords.bind(this);
-    this.getScrapedWords = this.getScrapedWords.bind(this);
+    this.clickedWords = ['javascript'];
+
+    this.getWords = this.getWords.bind(this);
     // Vis interaction method
     this.handleClickedWord = this.handleClickedWord.bind(this);
     //New Idea methods
@@ -67,9 +64,11 @@ class App extends Component {
     });
   }
 
+
   /**
-   * getScrapedWords - fetches scraped data from server
+   * getScrapedWords - fetches data from datamuse API
    */
+<<<<<<< HEAD
   getScrapedWords() {
     fetch('http://localhost:8080/api/scraper')
       .then((response) => response.json())
@@ -86,27 +85,26 @@ class App extends Component {
           visLoading: false
         });
       });
+=======
+  componentDidMount() {
+    this.getWords();
+    this.getIdea();
+>>>>>>> d7a81ee205066847412f781ff347c45459e11164
   }
 
-  /**
-   * getRandomWords - fetches random words and random frequency data from server
-   *
-   * @param {int} count = added to query string representing
-   *    the number of random words server should return
-   * @param {int} max = represents the max frequency which could be randomly
-   *    generated in returned object
-   */
-  getRandomWords(count = 10, max = 10) {
-    fetch(`http://localhost:8080/api/faker?count=${count}&max=${max}`)
+  getWords() {
+    console.log(this.clickedWords);
+    fetch('http://localhost:8080/api/scraper?word=' + this.clickedWords.slice(-1))
       .then((response) => response.json())
-      .then(randomWords => {
-        setTimeout(this.prepVisData, 100);
+      .then(scrapedWords => {
+        console.log(scrapedWords);
         this.setState({
-          randomWords: randomWords
+          scrapedWords: scrapedWords,
+          visLoading: false
         });
       })
       .catch(ex => {
-        console.log('error getting random words', ex);
+        console.log('error getting scraped words', ex);
         this.setState({
           visError: true,
           visLoading: false
@@ -114,6 +112,7 @@ class App extends Component {
       });
   }
 
+<<<<<<< HEAD
   /**
    * calcFreq - calculates the frequency of word occurrences for
    *    scrapedWord items and updates state with frequency data obj
@@ -160,6 +159,8 @@ class App extends Component {
       });
     }
   }
+=======
+>>>>>>> d7a81ee205066847412f781ff347c45459e11164
 
   /**
    * handleClickedWord - updates clickedWords cache obj based on user clicks. To be used later by NewIdea to auto-add tags
@@ -170,13 +171,8 @@ class App extends Component {
    */
   handleClickedWord(item) {
     let word = item.text;
-    let clickedWords = Object.assign(this.state.clickedWords);
-    if (!clickedWords[word]) clickedWords[word] = true;
-    else delete clickedWords[word];
-    console.log('updating cache', clickedWords);
-    this.setState({
-      clickedWords: clickedWords
-    });
+    this.clickedWords.push(word)
+    this.getWords();
   }
 
   /**
@@ -186,6 +182,7 @@ class App extends Component {
     fetch('http://localhost:8080/api/ideas')
       .then((response) => response.json())
       .then(gotIdea => {
+        console.log(gotIdea);
         this.setState({
           ideas: gotIdea
         });
@@ -222,8 +219,8 @@ class App extends Component {
           {/* VIS RENDER LOGIC */}
           {this.state.visLoading ? <VisLoading /> : null}
           {this.state.visError ? <VisError /> : null}
-          {this.state.visData && !this.state.visError ? <Vis
-            visData={this.state.visData}
+          {this.state.scrapedWords && !this.state.visError ? <Vis
+            scrapedWords={this.state.scrapedWords}
             handleClickedWord={this.handleClickedWord}
             windowWidth={this.state.windowWidth}
             windowHeight={this.state.windowHeight}
