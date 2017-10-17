@@ -11,10 +11,10 @@ const bodyParser  = require('body-parser'),
 
 /**
  * allowCrossDomain - Sets headers to allow for CORS
- * 
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
  */
 const allowCrossDomain = (req, res, next) => {
   res.header('Access-Control-Allow-Origin', "*");

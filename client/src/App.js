@@ -16,14 +16,14 @@ class App extends Component {
 
     this.state = {
       // Vis state
-      scrapedWords: this.getScrapedWords(),
+      scrapedWords: [],
       randomWords: [],
       freqData: {},
       visData: [],
       visLoading: true,
       visError: false,
       // Vis interaction
-      clickedWords: {},
+      clickedWords: ['javascript'],
       // New idea component
       newIdea: {
         title: "",
@@ -45,6 +45,24 @@ class App extends Component {
     this.handleNewIdeaFieldUpdate = this.handleNewIdeaFieldUpdate.bind(this);
     // get Idea method
     this.getIdea = this.getIdea.bind(this);
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:8080/api/scraper?word=' + this.state.clickedWords[0])
+      .then((response) => response.json())
+      .then(scrapedWords => {
+        console.log(scrapedWords);
+        this.setState({
+          scrapedWords: scrapedWords
+        });
+      })
+      .catch(ex => {
+        console.log('error getting scraped words', ex);
+        this.setState({
+          visError: true,
+          visLoading: false
+        });
+      });
   }
 
   /**
@@ -121,7 +139,7 @@ class App extends Component {
       randomWords = this.state.randomWords.length ? this.state.randomWords.slice(0) : null,
       visData;
 
-    // set visData to array of objects where text prop is the key of freqData and the value is the number of occurrances.  
+    // set visData to array of objects where text prop is the key of freqData and the value is the number of occurrances.
     //    Filterd to only show frequencies greater than 1 and non-generic text.
     visData = Object.keys(freqData)
       .filter(key => (key !== 'your' && key !== 'my' && key !== 'the' && freqData[key] > 1))
@@ -145,8 +163,8 @@ class App extends Component {
    * handleClickedWord - updates clickedWords cache obj based on user clicks. To be used later by NewIdea to auto-add tags
    *  - if word does not exist in cache, adds word with value of true
    *  - if word exists, deletes word from cache
-   * 
-   * @param {obj} item 
+   *
+   * @param {obj} item
    */
   handleClickedWord(item) {
     let word = item.text;
@@ -177,8 +195,8 @@ class App extends Component {
 
   /**
    * handleNewIdeaFieldUpdate - updates state any time new idea field changes
-   * 
-   * @param {obj} e - object provided by click event 
+   *
+   * @param {obj} e - object provided by click event
    */
   handleNewIdeaFieldUpdate(e) {
     let update = e.target.name; //The field that's updated is the property's name
@@ -203,8 +221,8 @@ class App extends Component {
           {/* VIS RENDER LOGIC */}
           {this.state.visLoading ? <VisLoading /> : null}
           {this.state.visError ? <VisError /> : null}
-          {this.state.visData && !this.state.visError ? <Vis
-            visData={this.state.visData}
+          {this.state.scrapedWords && !this.state.visError ? <Vis
+            scrapedWords={this.state.scrapedWords}
             handleClickedWord={this.handleClickedWord}
           /> : null}
         </div>

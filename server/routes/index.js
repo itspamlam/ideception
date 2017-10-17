@@ -18,11 +18,11 @@ userController = require('../controllers/userController.js');
  */
 router
   .route('/scraper')
-  .get(scraperController.getMediumData, scraperController.getRedditData, frequencyController.sanitizeTitles);
+  .get(scraperController.getWords);
 router
   .route('/frequency-test')
   .get(frequencyController.sanitizeTitles);
-  
+
 /**
  * Random data handler
  *  - generates random words and random frequencies for those words
