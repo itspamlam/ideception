@@ -17,7 +17,6 @@ function normalize(val, max, min) {
 }
 
 scrapeController.getWords = (req, res, next) => {
-  console.log('inside getWords');
   request('https://api.datamuse.com/words?v=enwiki&rel_trg=' + req.query.word)
     .then(data => {
       let jsonData = JSON.parse(data);
@@ -38,8 +37,7 @@ scrapeController.getWords = (req, res, next) => {
         tempObj.value = normalize(obj.score, dataMax, dataMin) * 5;
         newFormatData.push(tempObj);
       });
-      console.log(newFormatData);
-      res.send(200, newFormatData);
+      res.status(200).send(newFormatData);
     })
     .catch(err => res.status(404).send(err));
 };

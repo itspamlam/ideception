@@ -16,25 +16,7 @@ const scraperController = require('../controllers/scraperController.js'),
  */
 router
   .route('/scraper')
-<<<<<<< HEAD
-  .get(frequencyController.sanitizeTitles);
-router
-  .route('/frequency-test')
-  .get(frequencyController.sanitizeTitles);
-
-/**
- * Random data handler
- *  - generates random words and random frequencies for those words
- *    before outputting to client.
- *  - accepts request input if received
- */
-router // request random data
-  .route('/faker')
-  .get(fakerController.generateRandomWords, fakerController.generateRandomFrequencies);
-
-=======
   .get(scraperController.getWords);
->>>>>>> d7a81ee205066847412f781ff347c45459e11164
 /**
  * Idea handlers
  *  - Get all ideas

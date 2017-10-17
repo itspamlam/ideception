@@ -25,14 +25,12 @@ class App extends Component {
         idea: "",
         tag: ""
       },
+      windowDimensions: {
+        width: 500,
+        height: 500
+      },
       // Saved ideas component
-<<<<<<< HEAD
-      ideas: this.getIdea(),
-      windowWidth: 0,
-      windowHeight: 0
-=======
       ideas: []
->>>>>>> d7a81ee205066847412f781ff347c45459e11164
     };
 
     this.clickedWords = ['javascript'];
@@ -47,20 +45,15 @@ class App extends Component {
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
-  componentDidMount() {
-    this.updateWindowDimensions();
-    // window.addEventListener('resize', this.updateWindowDimensions);
-  }
 
-  componentWillUnmount() {
-    // window.removeEventListener('resize', this.updateWindowDimensions);
-  }
+
 
   updateWindowDimensions() {
-    console.log('hello');
     this.setState({
-      windowWidth: window.innerWidth,
-      height: window.innerHeight
+      windowDimensions: {
+        width: window.innerWidth,
+        height: window.innerHeight
+      }
     });
   }
 
@@ -68,28 +61,14 @@ class App extends Component {
   /**
    * getScrapedWords - fetches data from datamuse API
    */
-<<<<<<< HEAD
-  getScrapedWords() {
-    fetch('http://localhost:8080/api/scraper')
-      .then((response) => response.json())
-      .then(scrapedWords => {
-        // setTimeout(() => this.calcFreq(), 100);
-        this.setState({
-          scrapedWords: scrapedWords
-        });
-      })
-      .catch(ex => {
-        console.log('error getting scraped words', ex);
-        this.setState({
-          visError: true,
-          visLoading: false
-        });
-      });
-=======
   componentDidMount() {
     this.getWords();
     this.getIdea();
->>>>>>> d7a81ee205066847412f781ff347c45459e11164
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
   }
 
   getWords() {
@@ -97,7 +76,6 @@ class App extends Component {
     fetch('http://localhost:8080/api/scraper?word=' + this.clickedWords.slice(-1))
       .then((response) => response.json())
       .then(scrapedWords => {
-        console.log(scrapedWords);
         this.setState({
           scrapedWords: scrapedWords,
           visLoading: false
@@ -112,55 +90,6 @@ class App extends Component {
       });
   }
 
-<<<<<<< HEAD
-  /**
-   * calcFreq - calculates the frequency of word occurrences for
-   *    scrapedWord items and updates state with frequency data obj
-   */
-  calcFreq() {
-    let freqData = {};
-    this.state.scrapedWords.map(word => {
-      if (!freqData[word]) freqData[word] = 0;
-      freqData[word] += 1;
-      return word;
-    });
-    setTimeout(this.prepVisData, 100);
-    this.setState({
-      freqData: freqData
-    });
-  }
-
-  /**
-   * prepVisData - creates data array to be used by Vis component for rendering wordcloud
-   *  - filters common words and only shows words with frequency > 1
-   *  - concats scraped words and random words
-   */
-  prepVisData() {
-    let freqData = Object.assign(this.state.freqData),
-      randomWords = this.state.randomWords.length ? this.state.randomWords.slice(0) : null,
-      visData;
-
-    // set visData to array of objects where text prop is the key of freqData and the value is the number of occurrances.
-    //    Filterd to only show frequencies greater than 1 and non-generic text.
-    visData = Object.keys(freqData)
-      .filter(key => (key !== 'your' && key !== 'my' && key !== 'the' && freqData[key] > 1))
-      .map(key => ({ 'text': key, value: freqData[key] }));
-    if (!randomWords) { // now, if there are no random words, request to fetch those using frequency and filtered data
-      let len = Object.values(freqData).length;
-      let count = Object.values(freqData).sort((a, b) => a - b)[len - 1];
-      let max = Math.floor(visData.length / 4);
-      return this.getRandomWords(count, max);
-  }
-    else {  // otherwise, set the final data variable to array including all manipulated data.
-      visData = visData.concat(randomWords);
-      this.setState({
-        visData: visData,
-        visLoading: false
-      });
-    }
-  }
-=======
->>>>>>> d7a81ee205066847412f781ff347c45459e11164
 
   /**
    * handleClickedWord - updates clickedWords cache obj based on user clicks. To be used later by NewIdea to auto-add tags
@@ -182,7 +111,6 @@ class App extends Component {
     fetch('http://localhost:8080/api/ideas')
       .then((response) => response.json())
       .then(gotIdea => {
-        console.log(gotIdea);
         this.setState({
           ideas: gotIdea
         });
@@ -222,9 +150,8 @@ class App extends Component {
           {this.state.scrapedWords && !this.state.visError ? <Vis
             scrapedWords={this.state.scrapedWords}
             handleClickedWord={this.handleClickedWord}
-            windowWidth={this.state.windowWidth}
-            windowHeight={this.state.windowHeight}
-                                                        /> : null}
+            windowDimensions={this.state.windowDimensions}
+                                                             /> : null}
         </div>
         <div className="ideas">
           <div>

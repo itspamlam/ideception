@@ -27,20 +27,20 @@
 }
 
 .visual, .ideas {
-  margin-top: 30px;
-  padding-top: 60px;
   display: inline-block;
-  height: 500px;
-  vertical-align: text-top;
-  text-align: center;
 }
 
 .visual {
-  width: 65%;
+  width: calc(100% - 260px);
+  height: calc(100vh - 60px);
+  margin-top: 60px;
 }
 
 .ideas {
-  width: 30%;
+  width: 260px;
+  float: right;
+  margin-top: 80px;
+  padding: 15px;
 }
 
 .NewIdea {
@@ -72,4 +72,12 @@
   border-radius: 3px;
   font-size: 12px;
   letter-spacing: 2px;
+}
+
+text {
+  cursor: pointer;
+}
+
+text:hover {
+  opacity: .8;
 }
