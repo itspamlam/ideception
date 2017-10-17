@@ -6,6 +6,7 @@ import VisError from './vis/VisError';
 // Idea component
 import Idea from './ideas/Idea.js';
 import NewIdea from './ideas/NewIdea.js';
+import ClickedWords from './ideas/ClickedWords'
 // Style
 import logo from './Ideception.png';
 import './App.css';
@@ -145,7 +146,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <div class="App-logo">6&#176;.js</div>
+          <img src={logo} className="App-logo" alt="logo" />
           <small>Brought to you by Databasiqs <em> - cause you're querious!</em></small>
         </header>
         <div className="visual">
@@ -168,7 +169,7 @@ class App extends Component {
           </div>
           <div>
             {/* SHOW IDEAS LOGIC */}
-            {this.state.ideas ? <Idea ideas={this.state.ideas} /> : null}
+            <ClickedWords clickedWords={this.state.clickedWords} />
           </div>
         </div>
       </div>
