@@ -25,7 +25,7 @@ const Vis = (props) => {
         height={props.windowDimensions.height - 60}
         data={props.scrapedWords}
         fontSizeMapper={fontSizeMapper}
-        font="sans-serif"
+        font="'Josefin Sans', sans-serif"
         rotate={rotate}
         clickEvent={props.handleClickedWord}
         clickedWords={props.clickedWords}

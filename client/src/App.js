@@ -145,7 +145,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          <div class="App-logo">6&#176;.js</div>
           <small>Brought to you by Databasiqs <em> - cause you're querious!</em></small>
         </header>
         <div className="visual">
