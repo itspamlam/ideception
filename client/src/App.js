@@ -25,11 +25,16 @@ class App extends Component {
         idea: "",
         tag: ""
       },
+      windowDimensions: {
+        width: 500,
+        height: 500
+      },
       // Saved ideas component
-      ideas: []
+      ideas: [],
+      clickedWords: ['javascript']
     };
 
-    this.clickedWords = ['javascript'];
+    // this.clickedWords = ['javascript'];
 
     this.getWords = this.getWords.bind(this);
     // Vis interaction method
@@ -38,6 +43,19 @@ class App extends Component {
     this.handleNewIdeaFieldUpdate = this.handleNewIdeaFieldUpdate.bind(this);
     // get Idea method
     this.getIdea = this.getIdea.bind(this);
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+  }
+
+
+
+
+  updateWindowDimensions() {
+    this.setState({
+      windowDimensions: {
+        width: window.innerWidth,
+        height: window.innerHeight
+      }
+    });
   }
 
 
@@ -47,14 +65,18 @@ class App extends Component {
   componentDidMount() {
     this.getWords();
     this.getIdea();
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
   }
 
   getWords() {
-    console.log(this.clickedWords);
-    fetch('http://localhost:8080/api/scraper?word=' + this.clickedWords.slice(-1))
+    console.log(this.state.clickedWords);
+    fetch('http://localhost:8080/api/scraper?word=' + this.state.clickedWords.slice(-1))
       .then((response) => response.json())
       .then(scrapedWords => {
-        console.log(scrapedWords);
         this.setState({
           scrapedWords: scrapedWords,
           visLoading: false
@@ -79,8 +101,12 @@ class App extends Component {
    */
   handleClickedWord(item) {
     let word = item.text;
-    this.clickedWords.push(word)
-    this.getWords();
+    // this.state.clickedWords.push(word)
+    this.setState({
+      clickedWords: this.state.clickedWords.concat(word)
+    })
+    setTimeout(this.getWords, 0);
+    // this.getWords();
   }
 
   /**
@@ -90,7 +116,6 @@ class App extends Component {
     fetch('http://localhost:8080/api/ideas')
       .then((response) => response.json())
       .then(gotIdea => {
-        console.log(gotIdea);
         this.setState({
           ideas: gotIdea
         });
@@ -121,7 +146,6 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <br />
           <small>Brought to you by Databasiqs <em> - cause you're querious!</em></small>
         </header>
         <div className="visual">
@@ -131,7 +155,9 @@ class App extends Component {
           {this.state.scrapedWords && !this.state.visError ? <Vis
             scrapedWords={this.state.scrapedWords}
             handleClickedWord={this.handleClickedWord}
-          /> : null}
+            windowDimensions={this.state.windowDimensions}
+            clickedWords={this.state.clickedWords}
+                                                             /> : null}
         </div>
         <div className="ideas">
           <div>
