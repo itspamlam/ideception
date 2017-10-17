@@ -2,6 +2,24 @@
 
 }
 
+input {
+  -webkit-appearance: none;
+  appearance: none;
+  line-height: 20px;
+  font-size: 14px;
+  display: block;
+  border: none;
+  border: 2px solid #eaeaea;
+  margin: 0 0 5px 0;
+  width: 100%;
+  border-radius: 3px;
+  padding: 10px;
+}
+
+input:focus {
+  outline: none;
+}
+
 .App-header {
   background-color: #013a47;
   height: 60px;
@@ -11,6 +29,7 @@
   top: 0;
   left: 0;
   width: 100%;
+  z-index: 1000;
   box-shadow: 0 1px 6px 2px rgba(0,0,0,.10), 0 1px 15px 5px rgba(0,0,0,.08);
 }
 
@@ -50,20 +69,6 @@
   max-width: 300px;
 }
 
-.NewIdea input {
-  -webkit-appearance: none;
-  appearance: none;
-  line-height: 20px;
-  font-size: 14px;
-  display: block;
-  border: none;
-  border: 2px solid #eaeaea;
-  margin: 0 0 5px 0;
-  width: 100%;
-  border-radius: 3px;
-  padding: 10px;
-}
-
 .NewIdea button {
   -webkit-appearance: none;
   appearance: none;
@@ -83,4 +88,43 @@ text {
 
 text:hover {
   opacity: .8;
+}
+
+.target-word-overlay {
+  position: fixed;
+  z-index: 900;
+  padding-top: 60px;
+  width: 100%;
+  height: 100%;
+  display: table;
+  background: #065a6c;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: all .3s ease;
+}
+
+.show-target-overlay {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.target-word-overlay h2 {
+  margin: 0 0 10px 0;
+  color: white;
+  font-weight: 400;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 16px;
+}
+
+.target-word-overlay input {
+  width: 500px;
+  display: inline-block;
+}
+
+.target-word-input {
+  display: table-cell;
+  vertical-align: middle;
+  position: relative;
+  top: -60px;
 }
