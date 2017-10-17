@@ -31,7 +31,9 @@ class App extends Component {
         tag: ""
       },
       // Saved ideas component
-      ideas: this.getIdea()
+      ideas: this.getIdea(),
+      windowWidth: 0,
+      windowHeight: 0
     };
 
     // Vis methods
@@ -45,6 +47,24 @@ class App extends Component {
     this.handleNewIdeaFieldUpdate = this.handleNewIdeaFieldUpdate.bind(this);
     // get Idea method
     this.getIdea = this.getIdea.bind(this);
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+  }
+
+  componentDidMount() {
+    this.updateWindowDimensions();
+    // window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  componentWillUnmount() {
+    // window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions() {
+    console.log('hello');
+    this.setState({
+      windowWidth: window.innerWidth,
+      height: window.innerHeight
+    });
   }
 
   /**
@@ -54,7 +74,7 @@ class App extends Component {
     fetch('http://localhost:8080/api/scraper')
       .then((response) => response.json())
       .then(scrapedWords => {
-        setTimeout(() => this.calcFreq(), 100);
+        // setTimeout(() => this.calcFreq(), 100);
         this.setState({
           scrapedWords: scrapedWords
         });
@@ -121,7 +141,7 @@ class App extends Component {
       randomWords = this.state.randomWords.length ? this.state.randomWords.slice(0) : null,
       visData;
 
-    // set visData to array of objects where text prop is the key of freqData and the value is the number of occurrances.  
+    // set visData to array of objects where text prop is the key of freqData and the value is the number of occurrances.
     //    Filterd to only show frequencies greater than 1 and non-generic text.
     visData = Object.keys(freqData)
       .filter(key => (key !== 'your' && key !== 'my' && key !== 'the' && freqData[key] > 1))
@@ -131,7 +151,7 @@ class App extends Component {
       let count = Object.values(freqData).sort((a, b) => a - b)[len - 1];
       let max = Math.floor(visData.length / 4);
       return this.getRandomWords(count, max);
-    }
+  }
     else {  // otherwise, set the final data variable to array including all manipulated data.
       visData = visData.concat(randomWords);
       this.setState({
@@ -145,8 +165,8 @@ class App extends Component {
    * handleClickedWord - updates clickedWords cache obj based on user clicks. To be used later by NewIdea to auto-add tags
    *  - if word does not exist in cache, adds word with value of true
    *  - if word exists, deletes word from cache
-   * 
-   * @param {obj} item 
+   *
+   * @param {obj} item
    */
   handleClickedWord(item) {
     let word = item.text;
@@ -177,8 +197,8 @@ class App extends Component {
 
   /**
    * handleNewIdeaFieldUpdate - updates state any time new idea field changes
-   * 
-   * @param {obj} e - object provided by click event 
+   *
+   * @param {obj} e - object provided by click event
    */
   handleNewIdeaFieldUpdate(e) {
     let update = e.target.name; //The field that's updated is the property's name
@@ -196,7 +216,6 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <br />
           <small>Brought to you by Databasiqs <em> - cause you're querious!</em></small>
         </header>
         <div className="visual">
@@ -206,7 +225,9 @@ class App extends Component {
           {this.state.visData && !this.state.visError ? <Vis
             visData={this.state.visData}
             handleClickedWord={this.handleClickedWord}
-          /> : null}
+            windowWidth={this.state.windowWidth}
+            windowHeight={this.state.windowHeight}
+                                                        /> : null}
         </div>
         <div className="ideas">
           <div>
