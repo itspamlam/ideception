@@ -5,12 +5,7 @@ const ClickedWords = (props) => {
   let words = revWords.map((x, i) => {
      return <li id = {i}>{revWords[i]}</li>
   })
-
-  //FOR LOOP//
-  // for (let i = clickedWords.length - 1; i >= 0; i += 1){
-  //      return <li id = {i}>{clickedWords[i]}</li>
-  // } 
- 
+  
   return (
     <div>
       <h3> Current Score: </h3>
