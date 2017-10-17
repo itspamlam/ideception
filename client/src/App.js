@@ -6,6 +6,7 @@ import VisError from './vis/VisError';
 // Idea component
 import Idea from './ideas/Idea.js';
 import NewIdea from './ideas/NewIdea.js';
+import TargetWord from './target/targetWordOverlay'
 // Style
 import logo from './Ideception.png';
 import './App.css';
@@ -31,6 +32,7 @@ class App extends Component {
       },
       // Saved ideas component
       ideas: [],
+      targetWord: '',
       clickedWords: ['javascript']
     };
 
@@ -44,10 +46,8 @@ class App extends Component {
     // get Idea method
     this.getIdea = this.getIdea.bind(this);
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    this.handleTargetInput = this.handleTargetInput.bind(this);
   }
-
-
-
 
   updateWindowDimensions() {
     this.setState({
@@ -56,6 +56,14 @@ class App extends Component {
         height: window.innerHeight
       }
     });
+  }
+
+  handleTargetInput(e) {
+    if (e.keyCode === 13) {
+      this.setState({
+        targetWord: e.target.value
+      })
+    }
   }
 
 
@@ -145,9 +153,12 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <div class="App-logo">6&#176;.js</div>
+          <div className="App-logo">6&#176;.js</div>
           <small>Brought to you by Databasiqs <em> - cause you're querious!</em></small>
         </header>
+        <div className={this.state.targetWord.length ? 'target-word-overlay' : 'target-word-overlay show-target-overlay'} >
+          <TargetWord handleTargetInput={this.handleTargetInput} />
+        </div>
         <div className="visual">
           {/* VIS RENDER LOGIC */}
           {this.state.visLoading ? <VisLoading /> : null}
