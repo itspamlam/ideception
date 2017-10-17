@@ -16,7 +16,7 @@ const ClickedWords = (props) => {
       <h3> Current Score: </h3>
       { words.length }
       <h3>Target Word: </h3>
-      "SOME TARGET WORD HERE"
+      {props.targetWord}
       <h3>Clicked Words: </h3>
        {words}
     </div>
