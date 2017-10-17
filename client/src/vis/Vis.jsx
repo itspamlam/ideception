@@ -28,6 +28,7 @@ const Vis = (props) => {
         font="sans-serif"
         rotate={rotate}
         clickEvent={props.handleClickedWord}
+        clickedWords={props.clickedWords}
       /> : null}
     </div>
   );

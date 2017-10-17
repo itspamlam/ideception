@@ -50,6 +50,10 @@ class WordCloud extends Component {
     this.wordCloud = ReactFauxDom.createElement('div');
   }
 
+  shouldComponentUpdate(newProps, newState) {
+    return newProps.clickedWords.length !== this.props.clickedWords.length;
+  }
+
   render() {
     const { data, width, height, padding, font, fontSizeMapper, rotate, clickEvent } = this.props;
     const wordCounts = data.map(

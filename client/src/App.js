@@ -30,10 +30,11 @@ class App extends Component {
         height: 500
       },
       // Saved ideas component
-      ideas: []
+      ideas: [],
+      clickedWords: ['javascript']
     };
 
-    this.clickedWords = ['javascript'];
+    // this.clickedWords = ['javascript'];
 
     this.getWords = this.getWords.bind(this);
     // Vis interaction method
@@ -72,8 +73,8 @@ class App extends Component {
   }
 
   getWords() {
-    console.log(this.clickedWords);
-    fetch('http://localhost:8080/api/scraper?word=' + this.clickedWords.slice(-1))
+    console.log(this.state.clickedWords);
+    fetch('http://localhost:8080/api/scraper?word=' + this.state.clickedWords.slice(-1))
       .then((response) => response.json())
       .then(scrapedWords => {
         this.setState({
@@ -100,8 +101,12 @@ class App extends Component {
    */
   handleClickedWord(item) {
     let word = item.text;
-    this.clickedWords.push(word)
-    this.getWords();
+    // this.state.clickedWords.push(word)
+    this.setState({
+      clickedWords: this.state.clickedWords.concat(word)
+    })
+    setTimeout(this.getWords, 0);
+    // this.getWords();
   }
 
   /**
@@ -151,6 +156,7 @@ class App extends Component {
             scrapedWords={this.state.scrapedWords}
             handleClickedWord={this.handleClickedWord}
             windowDimensions={this.state.windowDimensions}
+            clickedWords={this.state.clickedWords}
                                                              /> : null}
         </div>
         <div className="ideas">
