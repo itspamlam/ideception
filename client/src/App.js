@@ -173,15 +173,9 @@ class App extends Component {
             handleClickedWord={this.handleClickedWord}
             windowDimensions={this.state.windowDimensions}
             clickedWords={this.state.clickedWords}
-                                                             /> : null}
+                                                                                     /> : null}
         </div>
         <div className="ideas">
-          <div>
-            {/* NEW IDEA LOGIC */}
-            <NewIdea
-              handleNewIdeaFieldUpdate={this.state.handleNewIdeaFieldUpdate}
-            />
-          </div>
           <div>
             {/* SHOW IDEAS LOGIC */}
             <ClickedWords clickedWords={this.state.clickedWords} targetWord={this.state.targetWord}/>
