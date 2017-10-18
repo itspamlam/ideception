@@ -158,7 +158,6 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <div className="App-logo">6&#176;.js</div>
-          <small>Brought to you by Databasiqs <em> - cause you're querious!</em></small>
         </header>
         <div className={this.state.targetWord.length ? 'target-word-overlay' : 'target-word-overlay show-target-overlay'} >
           <TargetWord handleTargetInput={this.handleTargetInput} />
