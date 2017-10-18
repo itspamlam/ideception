@@ -51,7 +51,7 @@ class WordCloud extends Component {
   }
 
   shouldComponentUpdate(newProps, newState) {
-    return newProps.clickedWords.length !== this.props.clickedWords.length || newProps.width !== this.props.width || newProps.height !== newProps.height;
+    return newProps.data[0].text !== this.props.data[0].text || newProps.width !== this.props.width || newProps.height !== newProps.height;
   }
 
   render() {
