@@ -159,7 +159,10 @@ text:hover {
 
 .history-display .score {
   font-family: 'Press Start 2P', cursive;
-  text-align: right;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 24px;
+
   margin: 0 0 50px 0;
   color: #FD7F28;
 }
@@ -167,7 +170,7 @@ text:hover {
 .target-word {
   text-align: center;
   font-family: 'Josefin Sans', sans-serif;
-  margin-bottom: 35px;
+  margin-bottom: 5px;
   color: #2678B2;
   font-size: 24px;
 }
@@ -176,6 +179,8 @@ text:hover {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  height: calc(100vh - 185px);
+  overflow: scroll;
 }
 
 .history-display li {
@@ -198,10 +203,14 @@ text:hover {
   left: calc(50% - 1px);
 }
 
+.history-display li:first-child {
+  margin-top: 40px;
+}
+
 .history-display li:first-child:before {
   border-left: 2px dotted #29BECD;
   height: 26px;
-  top: -31px;
+  top: -38px;
 }
 
 .finish-history:before {
