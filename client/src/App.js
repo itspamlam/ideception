@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Vis from './vis/Vis';
 import VisLoading from './vis/VisLoading';
 import VisError from './vis/VisError';
+import VisWinner from './vis/VisWinner';
 // Idea component
 import Idea from './ideas/Idea.js';
 import NewIdea from './ideas/NewIdea.js';
@@ -109,11 +110,13 @@ class App extends Component {
    * @param {obj} item
    */
   handleClickedWord(item) {
-    let word = item.text;
+    const word = item.text;
     // this.state.clickedWords.push(word)
-    this.setState({
-      clickedWords: this.state.clickedWords.concat(word)
-    })
+    let newState = { clickedWords: this.state.clickedWords.concat(word) };
+    if (newState.clickedWords.includes(this.state.targetWord)) {
+      newState = { ...newState, isWinner: true };
+    }
+    this.setState(newState);
     setTimeout(this.getWords, 0);
     // this.getWords();
   }
@@ -164,7 +167,8 @@ class App extends Component {
           {/* VIS RENDER LOGIC */}
           {this.state.visLoading ? <VisLoading /> : null}
           {this.state.visError ? <VisError /> : null}
-          {this.state.scrapedWords && !this.state.visError ? <Vis
+          {this.state.isWinner ? <VisWinner /> : null}
+          {this.state.scrapedWords && !this.state.visError && !this.state.isWinner ? <Vis
             scrapedWords={this.state.scrapedWords}
             handleClickedWord={this.handleClickedWord}
             windowDimensions={this.state.windowDimensions}
