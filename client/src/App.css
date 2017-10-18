@@ -61,8 +61,9 @@ input:focus {
 .ideas {
   width: 260px;
   float: right;
-  margin-top: 80px;
-  padding: 15px;
+  padding: 80px 20px 0 20px;
+  height: 100vh;
+  background: #f5f6f7;
 }
 
 .NewIdea {
@@ -154,4 +155,56 @@ text:hover {
   border-radius: 3px;
   font-size: 12px;
   letter-spacing: 2px;
+}
+
+.history-display .score {
+  font-family: 'Press Start 2P', cursive;
+  text-align: right;
+  margin: 0 0 50px 0;
+  color: #FD7F28;
+}
+
+.target-word {
+  text-align: center;
+  font-family: 'Josefin Sans', sans-serif;
+  margin-bottom: 35px;
+  color: #2678B2;
+  font-size: 24px;
+}
+
+.history-display ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-display li {
+  padding: 0;
+  margin: 25px 0;
+  position: relative;
+  color: #7F7F7F;
+  text-align: center;
+  font-size: 18px;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.history-display li:before {
+  content: ' ';
+  border-left: 2px solid #29BECD;
+  position: absolute;
+  top: -21px;
+  height: 16px;
+  width: 2px;
+  left: calc(50% - 1px);
+}
+
+.history-display li:first-child:before {
+  border-left: 2px dotted #29BECD;
+  height: 26px;
+  top: -31px;
+}
+
+.finish-history:before {
+  border-left: 4px solid #339E34 !important;
+  left: calc(50% - 2px) !important;
 }
