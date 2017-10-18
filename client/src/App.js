@@ -6,6 +6,7 @@ import VisError from './vis/VisError';
 // Idea component
 import Idea from './ideas/Idea.js';
 import NewIdea from './ideas/NewIdea.js';
+import ClickedWords from './clickedWords/ClickedWords'
 import TargetWord from './target/targetWordOverlay'
 // Style
 import logo from './Ideception.png';
@@ -179,7 +180,7 @@ class App extends Component {
           </div>
           <div>
             {/* SHOW IDEAS LOGIC */}
-            {this.state.ideas ? <Idea ideas={this.state.ideas} /> : null}
+            <ClickedWords clickedWords={this.state.clickedWords} targetWord={this.state.targetWord}/>
           </div>
         </div>
       </div>
